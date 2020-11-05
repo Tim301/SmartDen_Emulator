@@ -1,10 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        .button1 {background-color: #fc9e46;} /* Orange for loading */
+    </style>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script>
+        var URL = "http://127.0.0.1:8080"
+        var URLJSON = URL + "/current state.json"
+        var json
+        var button1
+
+        console.log(URLJSON)
+        
+
+        var HttpClient = function() {
+            this.get = function(aUrl, aCallback) {
+                var anHttpRequest = new XMLHttpRequest();
+                anHttpRequest.onreadystatechange = function() { 
+                    if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+                        aCallback(anHttpRequest.responseText);
+                }
+                anHttpRequest.open( "GET", aUrl, true );            
+                anHttpRequest.send( null );
+            }
+        }
+
+        function GetStatus() {
+            var client = new HttpClient();
+            client.get(URLJSON, function(response) {
+                console.log(response);
+                json = JSON.parse(response);
+                console.log("before :" + !!+(json.CurrentState.Output[0].Value))
+                button1 = json.CurrentState.Output[0].Value
+                if (button1 == 0){
+                    document.getElementById("button1").style.backgroundColor = "#c5c5c5"
+                } else {
+                    document.getElementById("button1").style.backgroundColor = "#51d363"
+                }
+                console.log("test" + button1)
+                console.log(json.CurrentState.Output[0].Value)
+
+            });
+        }
+
+        function SetStatus(State,varbutton) {
+            if (varbutton == true) {
+                State= State+"0"
+            } else {
+                State= State+"1"
+            }
+            console.log("after" + State)
+            var client = new HttpClient();
+            client.get(URLJSON+State, function(response) {
+                console.log(response);
+                json = JSON.parse(response);
+                document.getElementById("button1").setAttribute("data-value", !!+(json.CurrentState.Output[0].Value))
+                button1 = json.CurrentState.Output[0].Value
+                button1 = json.CurrentState.Output[0].Value
+                if (button1 == 0){
+                    document.getElementById("button1").style.backgroundColor = "#c5c5c5"
+                } else {
+                    document.getElementById("button1").style.backgroundColor = "#51d363"
+                }
+                console.log(json.CurrentState.Output[0].Value)
+            });
+        }
+
+
+        window.setInterval(function(){
+        GetStatus();
+    }, 1000);
+    </script>
 </head>
 <body>
-
+    <h1>Car LED ON/OFF</h1>
+    <button id="button1" class="button1" type="button" data-value="false" onclick="SetStatus('?Relay1=',button1)">Toggle LED Relay1</button>
 </body>
 </html>
