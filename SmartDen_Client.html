@@ -10,7 +10,7 @@
         var URL = "http://127.0.0.1:8080"
         var URLJSON = URL + "/current state.json"
         var json
-        var button1
+        var button15
 
         console.log(URLJSON)
         
@@ -32,15 +32,15 @@
             client.get(URLJSON, function(response) {
                 console.log(response);
                 json = JSON.parse(response);
-                console.log("before :" + !!+(json.CurrentState.Output[0].Value))
-                button1 = json.CurrentState.Output[0].Value
-                if (button1 == 0){
-                    document.getElementById("button1").style.backgroundColor = "#c5c5c5"
+                console.log("before :" + !!+(json.CurrentState.Output[14].Value))
+                button15 = json.CurrentState.Output[14].Value
+                if (button15 == 0){
+                    document.getElementById("button15").style.backgroundColor = "#c5c5c5"
                 } else {
-                    document.getElementById("button1").style.backgroundColor = "#51d363"
+                    document.getElementById("button15").style.backgroundColor = "#51d363"
                 }
                 console.log("test" + button1)
-                console.log(json.CurrentState.Output[0].Value)
+                console.log(json.CurrentState.Output[14].Value)
 
             });
         }
@@ -56,15 +56,15 @@
             client.get(URLJSON+State, function(response) {
                 console.log(response);
                 json = JSON.parse(response);
-                document.getElementById("button1").setAttribute("data-value", !!+(json.CurrentState.Output[0].Value))
-                button1 = json.CurrentState.Output[0].Value
-                button1 = json.CurrentState.Output[0].Value
-                if (button1 == 0){
-                    document.getElementById("button1").style.backgroundColor = "#c5c5c5"
+                document.getElementById("button15").setAttribute("data-value", !!+(json.CurrentState.Output[0].Value))
+                button15 = json.CurrentState.Output[14].Value
+                button15 = json.CurrentState.Output[14].Value
+                if (button15 == 0){
+                    document.getElementById("button15").style.backgroundColor = "#c5c5c5"
                 } else {
-                    document.getElementById("button1").style.backgroundColor = "#51d363"
+                    document.getElementById("button15").style.backgroundColor = "#51d363"
                 }
-                console.log(json.CurrentState.Output[0].Value)
+                console.log(json.CurrentState.Output[14].Value)
             });
         }
 
@@ -76,6 +76,6 @@
 </head>
 <body>
     <h1>Car LED ON/OFF</h1>
-    <button id="button1" class="button1" type="button" data-value="false" onclick="SetStatus('?Relay1=',button1)">Toggle LED Relay1</button>
+    <button id="button15" class="button15" type="button" data-value="false" onclick="SetStatus('?Relay15=',button15)">Lumière extérieur</button>
 </body>
 </html>
