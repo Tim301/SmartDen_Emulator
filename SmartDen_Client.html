@@ -2,15 +2,26 @@
 <html lang="en">
 <head>
     <style>
-        .button1 {background-color: #fc9e46;} /* Orange for loading */
+        .button15 {background-color: #fc9e46;} /* Orange for loading */
+        .button16 {background-color: #fc9e46;} /* Orange for loading */
     </style>
     <meta charset="UTF-8">
     <title>Title</title>
     <script>
-        var URL = "http://127.0.0.1:8080"
-        var URLJSON = URL + "/current state.json"
-        var json
+        var URL = "http://127.0.0.1:8080";
+        var URLJSON = URL + "/current state.json";
+        var json    // Parsed JSON from currentstate url
+
+        const button1 = 0;
+        const button2 = 0;
+        const button3 = 0;
+        const button4 = 0;
+        const button5 = 0;
+        const button6 = 0;
+         
         var button15
+        var button16
+        
 
         console.log(URLJSON)
         
@@ -32,15 +43,18 @@
             client.get(URLJSON, function(response) {
                 console.log(response);
                 json = JSON.parse(response);
-                console.log("before :" + !!+(json.CurrentState.Output[14].Value))
                 button15 = json.CurrentState.Output[14].Value
                 if (button15 == 0){
                     document.getElementById("button15").style.backgroundColor = "#c5c5c5"
                 } else {
                     document.getElementById("button15").style.backgroundColor = "#51d363"
                 }
-                console.log("test" + button1)
-                console.log(json.CurrentState.Output[14].Value)
+                button16 = json.CurrentState.Output[15].Value
+                if (button16 == 0){
+                    document.getElementById("button16").style.backgroundColor = "#c5c5c5"
+                } else {
+                    document.getElementById("button16").style.backgroundColor = "#51d363"
+                }
 
             });
         }
@@ -56,15 +70,19 @@
             client.get(URLJSON+State, function(response) {
                 console.log(response);
                 json = JSON.parse(response);
-                document.getElementById("button15").setAttribute("data-value", !!+(json.CurrentState.Output[0].Value))
                 button15 = json.CurrentState.Output[14].Value
-                button15 = json.CurrentState.Output[14].Value
+                button16 = json.CurrentState.Output[15].Value
                 if (button15 == 0){
                     document.getElementById("button15").style.backgroundColor = "#c5c5c5"
                 } else {
                     document.getElementById("button15").style.backgroundColor = "#51d363"
                 }
-                console.log(json.CurrentState.Output[14].Value)
+                button16 = json.CurrentState.Output[15].Value
+                if (button16 == 0){
+                    document.getElementById("button16").style.backgroundColor = "#c5c5c5"
+                } else {
+                    document.getElementById("button16").style.backgroundColor = "#51d363"
+                }
             });
         }
 
@@ -75,7 +93,15 @@
     </script>
 </head>
 <body>
-    <h1>Car LED ON/OFF</h1>
+    <h1>Contrôle des lumières:</h1>
     <button id="button15" class="button15" type="button" data-value="false" onclick="SetStatus('?Relay15=',button15)">Lumière extérieur</button>
+    <button id="button16" class="button16" type="button" data-value="false" onclick="SetStatus('?Relay16=',button16)">Lumière intérieur</button>
+    <h1>Contrôle des moteurs:</h1>
+    <button id="button1" class="button1" type="button" data-value="false" onclick="SetStatus('?Relay1=',button1)">Démarrer M3</button>
+    <button id="button2" class="button2" type="button" data-value="false" onclick="SetStatus('?Relay2=',button2)">Arrêter M3</button>
+    <button id="button3" class="button3" type="button" data-value="false" onclick="SetStatus('?Relay3=',button3)">Démarrer M4</button>
+    <button id="button4" class="button4" type="button" data-value="false" onclick="SetStatus('?Relay4=',button4)">Arrêter M4</button>
+    <button id="button5" class="button5" type="button" data-value="false" onclick="SetStatus('?Relay5=',button4)">Démarrer M5</button>
+    <button id="button6" class="button6" type="button" data-value="false" onclick="SetStatus('?Relay6=',button4)">Arrêter M5</button>
 </body>
 </html>
