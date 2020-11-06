@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
-
-	//"fmt"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
@@ -56,7 +54,7 @@ func main() {
 
 
 	// Start the server on localhost port 8080 and log any errors
-	log.Println("http server started on :8080")
+	log.Println("http server started on 127.0.0.1:8080")
 	_ = http.ListenAndServe(":8080", net)
 
 }
@@ -74,6 +72,25 @@ func SendJson(w http.ResponseWriter, r *http.Request) {
 		 }
 	}
 
+	if data.CurrentState.Output[0].Value == "1" {
+		fmt.Println("Motor3 ON")
+	}
+	if data.CurrentState.Output[1].Value == "1" {
+		fmt.Println("Motor3 OFF")
+	}
+	if data.CurrentState.Output[2].Value == "1" {
+		fmt.Println("Motor4 ON")
+	}
+	if data.CurrentState.Output[3].Value == "1" {
+		fmt.Println("Motor4 OFF")
+	}
+	if data.CurrentState.Output[4].Value == "1" {
+		fmt.Println("Motor5 ON")
+	}
+	if data.CurrentState.Output[5].Value == "1" {
+		fmt.Println("Motor5 OFF")
+	}
+
 	year, month, day := time.Now().Date()
 	data.CurrentState.Device.Date = ( strconv.Itoa(day) + "/" +  strconv.Itoa(int(month))  + "/" + strconv.Itoa(year) )
 	data.CurrentState.Device.Time = time.Now().Format("15:04")
@@ -82,8 +99,16 @@ func SendJson(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 	w.Header().Set("Content-Type","application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.WriteHeader(http.StatusOK)
 	w.Write(replyJson)
+	go func() {
+		time.Sleep(50 * time.Millisecond)
+		for i:=0; i<6; i++ {
+			data.CurrentState.Output[i].Value = "0"
+		}
+    }()
+
 }
 func SendXML(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
@@ -109,5 +134,11 @@ func SendXML(w http.ResponseWriter, r *http.Request) {
 	//w.Header().Set("Content-Type","application/xml")
 	//w.WriteHeader(http.StatusOK)
 	w.Write(replyXML)
-}
+	go func() {
+		time.Sleep(50 * time.Millisecond)
+		for i:=0; i<5; i++ {
+			data.CurrentState.Output[i].Value = "0"
+		}
+    }()
 
+}
