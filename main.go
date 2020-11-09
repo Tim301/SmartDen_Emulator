@@ -65,8 +65,12 @@ func SendJson(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	for  i := 0; i < 16; i++ {
-		 val := r.FormValue("Relay" + strconv.Itoa(i+1))
+	val := r.FormValue("Relay")
+	if val != "" {
+		data.CurrentState.Output[0].Value = val
+	}
+	for  i := 1; i < 16; i++ {
+		 val = r.FormValue("Relay" + strconv.Itoa(i+1))
 		 if val != "" {
 			 data.CurrentState.Output[i].Value = val
 		 }
@@ -140,5 +144,4 @@ func SendXML(w http.ResponseWriter, r *http.Request) {
 			data.CurrentState.Output[i].Value = "0"
 		}
     }()
-
 }
