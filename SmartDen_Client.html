@@ -29,12 +29,22 @@
         var HttpClient = function() {
             this.get = function(aUrl, aCallback) {
                 var anHttpRequest = new XMLHttpRequest();
+                anHttpRequest.timeout = 250;
                 anHttpRequest.onreadystatechange = function() { 
                     if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
-                        aCallback(anHttpRequest.responseText);
+                        aCallback(anHttpRequest.responseText);                        
+                    if (anHttpRequest.status == 200)
+                    document.getElementById("status").innerHTML = "Connecté";
+                    document.getElementById("status").style.color = "#51d363";
                 }
                 anHttpRequest.open( "GET", aUrl, true );            
                 anHttpRequest.send( null );
+                anHttpRequest.ontimeout = function() {
+                    document.getElementById("button15").style.backgroundColor = "#fc9e46"
+                    document.getElementById("button16").style.backgroundColor = "#fc9e46"
+                    document.getElementById("status").innerHTML = "/!\\ Non connecté !";
+                    document.getElementById("status").style.color = "#fa1212";
+                }
             }
         }
 
@@ -97,11 +107,12 @@
     <button id="button15" class="button15" type="button" data-value="false" onclick="SetStatus('?Relay15=',button15)">Lumière extérieur</button>
     <button id="button16" class="button16" type="button" data-value="false" onclick="SetStatus('?Relay16=',button16)">Lumière intérieur</button>
     <h1>Contrôle des moteurs:</h1>
-    <button id="button1" class="button1" type="button" data-value="false" onclick="SetStatus('?Relay1=',button1)">Démarrer M3</button>
+    <button id="button1" class="button1" type="button" data-value="false" onclick="SetStatus('?Relay=',button1)">Démarrer M3</button>
     <button id="button2" class="button2" type="button" data-value="false" onclick="SetStatus('?Relay2=',button2)">Arrêter M3</button>
     <button id="button3" class="button3" type="button" data-value="false" onclick="SetStatus('?Relay3=',button3)">Démarrer M4</button>
     <button id="button4" class="button4" type="button" data-value="false" onclick="SetStatus('?Relay4=',button4)">Arrêter M4</button>
     <button id="button5" class="button5" type="button" data-value="false" onclick="SetStatus('?Relay5=',button4)">Démarrer M5</button>
     <button id="button6" class="button6" type="button" data-value="false" onclick="SetStatus('?Relay6=',button4)">Arrêter M5</button>
+    <h1 id="status"></h1>
 </body>
 </html>
