@@ -1,0 +1,49 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://main.gd" type="Script" id=1]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 1.12244
+margin_bottom = 1.12244
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Rec_Button" type="Button" parent="."]
+margin_right = 94.0
+margin_bottom = 65.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_left = 191.0
+margin_top = 4.0
+margin_right = 398.0
+margin_bottom = 69.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Note" type="Button" parent="."]
+anchor_right = 0.164
+anchor_bottom = 0.099
+margin_left = 406.409
+margin_top = 68.1225
+margin_right = 442.473
+margin_bottom = 128.722
+
+[node name="Print" type="Button" parent="."]
+margin_left = 793.581
+margin_top = 103.266
+margin_right = 905.581
+margin_bottom = 141.266
+[connection signal="button_down" from="Rec_Button" to="." method="_on_Rec_Button_Start_Record"]
+[connection signal="button_down" from="Note" to="." method="_on_Note_button_down"]
+[connection signal="button_up" from="Note" to="." method="_on_Note_button_up"]
+[connection signal="button_down" from="Print" to="." method="_on_Print_button_down"]
